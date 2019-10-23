@@ -1,0 +1,94 @@
+
+.dashboardclass{
+    border: 1px solid #FFF;
+    background-color: #fff;
+    box-shadow: 0 0 25px #959595;
+    right: -10px;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 6px;
+}
+.leftMenuStyle{
+    color: skyblue
+}
+.containerAlign{
+    border: 1px solid #999;
+    height: 62vh;
+    margin-bottom: 20px;
+    overflow-y: scroll;
+}
+/* .ulClass {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .liClass {
+    float: left;
+  }
+  
+  .liClass .aClass {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .liClass .aClass:hover {
+    background-color: #111;
+  }
+
+  .active {
+    background-color: #4CAF50;
+  } */
+  .defaultText{
+      color: #999;
+      text-align: center;
+  }
+
+  .btn {
+    border: none;
+    outline: none;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .active, .btn:hover {
+  background-color: #666;
+  color: white;
+}
+
+.starClass{
+  color: red;
+}
+
+.button-active{
+  background-color: #f1f1f1;
+  color: #999;
+  }
+  
+  .button-standard{
+    background-color:green;
+    color: #f1f1f1;
+  }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }

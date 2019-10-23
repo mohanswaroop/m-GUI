@@ -1,0 +1,314 @@
+<div class="dashboardclass">
+  <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+      <div class="container-fluid">
+        <a href="#" class="navbar-brand mr-3">Monty Telecom</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav">
+            <a href="#" class="nav-item nav-link">
+              <u>Product Configuration</u> |</a>
+            <a href="#" class="nav-item nav-link">
+              <u>User Accounts</u> |</a>
+            <a href="#" class="nav-item nav-link">
+              <u>Log Management</u> |</a>
+            <a href="#" class="nav-item nav-link">
+              <u>More</u>
+            </a>
+          </div>
+          <div class="navbar-nav ml-auto">
+            <a href="#" class="nav-item nav-link">
+              <i class="fa fa-user-circle-o" style="font-size:24px"></i>
+            </a>
+            <a href="#" class="nav-item nav-link">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+      <div class="container-fluid">
+        <div class="jumbotron">
+          <a href="#" class="nav-item nav-link">
+            <span class="glyphicon glyphicon-user"></span>
+          </a>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-xl-3 col-md-3 col-sm-3">
+            <ul *ngFor="let data of leftMenu">
+              <li class="leftMenuStyle" (click)="selectedData(data.name)">
+                {{data.name}}
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-9 col-xl-9 col-md-9 col-sm-9 row containerAlign">
+            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-3" *ngFor="let data of navData;let i = index">
+              <!-- <ul class="ulClass">
+                <li class="liClass">
+                  <a class="aClass" (click)="renderForm(data)">
+                    {{data}}
+                  </a>
+                </li>
+              </ul> -->
+              <button class="btn" [ngClass]="[i == clickedIndex ? 'button-standard ' : 'button-active']" (click)="renderForm(data,i)">{{data}}</button>
+            </div>
+            <div *ngIf="emptyMessage" class="col-lg-12 col-xl-12 col-md-12 col-sm-12 defaultText">
+              <span>Welcome To Monty Telecom</span>
+              <br>
+              <span>Please Select From Left Menu To Perform Action</span>
+            </div>
+            <div *ngIf="SystemConfiguration" class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+              <div class="">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                      <!-- <h2>System Configuration Form</h2> -->
+                      <form [formGroup]="SystemConfigurationForm" (ngSubmit)="onSubmitSystemConfig()">
+                        <div class="form-group">
+                          <label>First Name
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submittedSystemConfigurationForm && f.firstName.errors }"
+                          />
+                          <div *ngIf="submittedSystemConfigurationForm && f.firstName.errors" class="invalid-feedback">
+                            <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Last Name
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submittedSystemConfigurationForm && f.lastName.errors }"
+                          />
+                          <div *ngIf="submittedSystemConfigurationForm && f.lastName.errors" class="invalid-feedback">
+                            <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Email
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submittedSystemConfigurationForm && f.email.errors }"
+                          />
+                          <div *ngIf="submittedSystemConfigurationForm && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Configuration Name
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="configName" class="form-control" [ngClass]="{ 'is-invalid': submittedSystemConfigurationForm && f.configName.errors }"
+                          />
+                          <div *ngIf="submittedSystemConfigurationForm && f.configName.errors" class="invalid-feedback">
+                            <div *ngIf="f.configName.errors.required">Configuration Name is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Comments (optional)</label>
+                          <input type="text" formControlName="comments" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                          <button [disabled]="loading" style="color: #999" class="btn btn-primary">Register</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- blacklist form -->
+            <div *ngIf="BlackList" class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+              <div class="">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                      <!-- <h2>BlackList Form</h2> -->
+                      <form [formGroup]="BlackListForm" (ngSubmit)="BlackListFormSubmit()">
+                        <div class="form-group">
+                          <label>Configuration Name
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="configName" class="form-control" [ngClass]="{ 'is-invalid': submittedBlackListForm && b.configName.errors }"
+                          />
+                          <div *ngIf="submittedBlackListForm && b.configName.errors" class="invalid-feedback">
+                            <div *ngIf="b.configName.errors.required">Configuration Name</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Configuration Id
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="config_id" class="form-control" [ngClass]="{ 'is-invalid': submittedBlackListForm && b.config_id.errors }"
+                          />
+                          <div *ngIf="submittedBlackListForm && b.config_id.errors" class="invalid-feedback">
+                            <div *ngIf="b.config_id.errors.required">Configuration Id</div>
+                          </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="number" formControlName="number" class="form-control"
+                              [ngClass]="{ 'is-invalid': submittedBlackListForm && b.number.errors }" />
+                            <div *ngIf="submittedBlackListForm && b.number.errors" class="invalid-feedback">
+                              <div *ngIf="b.number.errors.required">number is required</div>
+                              <div *ngIf="b.number.errors.number">Phone Number must be a valid</div>
+                            </div>
+                          </div> -->
+                        <div class="form-group">
+                          <label>Email
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submittedBlackListForm && b.email.errors }"
+                          />
+                          <div *ngIf="submittedBlackListForm && b.email.errors" class="invalid-feedback">
+                            <div *ngIf="b.email.errors.required">Email is required</div>
+                            <div *ngIf="b.email.errors.email">Email must be a valid email address</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Reason For Blocklist
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="block_list_reason" class="form-control" [ngClass]="{ 'is-invalid': submittedBlackListForm && b.block_list_reason.errors }"
+                          />
+                          <div *ngIf="submittedBlackListForm && f.block_list_reason.errors" class="invalid-feedback">
+                            <div *ngIf="f.block_list_reason.errors.required">Reason is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <button [disabled]="loading" style="color:#999;" class="btn btn-success">Register</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- whitelist form -->
+            <div *ngIf="WhiteList" class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+              <div class="">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                      <!-- <h2>WhiteList Form</h2> -->
+                      <form [formGroup]="WhiteListForm" (ngSubmit)="WhiteListFormSubmit()">
+                        <div class="form-group">
+                          <label>Email
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submittedWhiteListForm && w.email.errors }"
+                          />
+                          <div *ngIf="submittedWhiteListForm && w.email.errors" class="invalid-feedback">
+                            <div *ngIf="w.email.errors.required">Email is required</div>
+                            <div *ngIf="w.email.errors.email">Email must be a valid email address</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Reason For WhiteList
+                            <span class="starClass">*</span>
+                          </label>
+                          <input type="text" formControlName="white_list_reason" class="form-control" [ngClass]="{ 'is-invalid': submittedWhiteListForm && w.white_list_reason.errors }"
+                          />
+                          <div *ngIf="submittedWhiteListForm && w.white_list_reason.errors" class="invalid-feedback">
+                            <div *ngIf="w.white_list_reason.errors.required">Reason is required</div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <button [disabled]="loading" style="color:#999;" class="btn btn-success">Register</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- special form -->
+            <div *ngIf="SpecialNumber" class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+              <div class="">
+                <div class="container">
+                  <div class="row">
+                    <span style="color: #999">Special Number Service Is Being Integated</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="listScreen" class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+              <div class="">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="padding: 10px;">
+                      <span style="color: #999">System Configuration List</span>
+                    </div>
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                      <table>
+                        <tr>
+                          <th>Sno</th>
+                          <th>Name</th>
+                          <th>Configuration Name</th>
+                          <th>Email</th>
+                          <th>Comments</th>
+                        </tr>
+                        <tr class="" *ngFor="let data of systemConfigFetchData;let p=index">
+                          <td>{{p+1}}</td>
+                          <td>{{data.firstName}} {{data.lastName}}</td>
+                          <td>{{data.configName}}</td>
+                          <td>{{data.email}}</td>
+                          <td>{{data.comments}}</td>
+                      </table>
+                      <div *ngIf="systemConfigFetchData.length == 0" class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="text-align:center;color:#999">
+                        <span>No System Configuration Records Found</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="padding: 10px;">
+                      <span style="color: #999">Black List</span>
+                    </div>
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                      <table>
+                        <tr>
+                          <th>Sno</th>
+                          <th>Config Id</th>
+                          <th>Config Name</th>
+                          <th>Email</th>
+                          <th>Reason For BlackList</th>
+                        </tr>
+                        <tr class="" *ngFor="let data of blacklistFetchData;let p=index">
+                          <td>{{p+1}}</td>
+                          <td>{{data.config_id}}</td>
+                          <td>{{data.configName}}</td>
+                          <td>{{data.email}}</td>
+                          <td>{{data.block_list_reason}}</td>
+                      </table>
+                      <div *ngIf="blacklistFetchData.length == 0" class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="text-align:center;color:#999">
+                        <span>No BlackList Records Found</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="padding: 10px;">
+                      <span style="color: #999">White List</span>
+                    </div>
+                    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="margin-bottom: 20px;">
+                      <table>
+                        <tr>
+                          <th>Sno</th>
+                          <th>Email</th>
+                          <th>Reason For WhiteList</th>
+                        </tr>
+                        <tr class="" *ngFor="let data of whiteListFetchData;let p=index">
+                          <td>{{p+1}}</td>
+                          <td>{{data.email}}</td>
+                          <td>{{data.white_list_reason}}</td>
+                      </table>
+                      <div *ngIf="whiteListFetchData.length == 0" class="col-lg-12 col-xl-12 col-md-12 col-sm-12" style="text-align:center;color:#999">
+                        <span>No WhiteList Records Found</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
